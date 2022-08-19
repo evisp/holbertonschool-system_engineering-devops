@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#configures a new Ubuntu machine nginx
+sudo apt-get update
+sudo apt-get -y install haproxy
+
+sudo echo "ENABLED=1" | sudo tee /etc/default/haproxy
+# configure the template for load balancer on the haproxy.cfg file
+sudo echo "
+frontend http_front
+	 bind *:80
+	 mode http
+	 default_backend http_back
+backend http_back
+	balance roundrobin
+	server 4476-web-01 54.167.24.215:80 check
+	server 4476-web-02 54.167.24.215:80 check
+" | sudo tee -a /etc/haproxy/haproxy.cfg
+sudo service haproxy restart
