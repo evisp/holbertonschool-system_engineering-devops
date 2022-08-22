@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Bash script that configures a server with some requirements
+sudo rm -f /etc/nginx/sites-enabled/default
+sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+sudo service nginx restart
