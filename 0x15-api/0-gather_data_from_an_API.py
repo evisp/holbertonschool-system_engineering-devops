@@ -3,26 +3,20 @@
 """
 
 import requests
-import sys
+from sys import argv
 
 if __name__ == "__main__":
-    user_id = sys.argv[1]
-    url_user = 'https://jsonplaceholder.typicode.com/users/{}'\
-        .format(user_id)
-    user_req = requests.get(url_user).json()
-    userId_parameter = '?userId={}'.format(user_id)
-    url_todo = 'https://jsonplaceholder.typicode.com/todos{}'\
-        .format(userId_parameter)
-    todo_req = requests.get(url_todo).json()
-    todo_total = len(todo_req)
+    url = "https://jsonplaceholder.typicode.com/"
+    user = argv[1]
+    user_request = requests.get(url + f"users/{user}").json()
+    all_requests = requests.get(url + "todos", params={"userId": user}).json()
 
-    tasks_done = []
-    for check in todo_req:
-        if check['completed']:
-            tasks_done.append(check)
-    total_tasks_done = len(tasks_done)
-    print("Employee {} is done with tasks({}/{}):"
-          .format(user_req['name'], total_tasks_done, todo_total))
+    completed_tasks = []
+    for request in all_requests:
+        if request['completed']:
+            completed_tasks.append(request)
 
-    for titles in tasks_done:
-        print("\t {}".format(titles['title']))
+    print(f"Employee {user_request.get('name')} is done with tasks({len(completed_tasks)}/{len(all_requests)})")
+
+    for task in completed_tasks:
+        print(f"\t {task['title']}")
