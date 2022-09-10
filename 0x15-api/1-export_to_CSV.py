@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-"""
-Python script to export data in the CSV format.
+"""Python script to export data in the CSV format.
 
 Requirements:
 
@@ -8,27 +7,22 @@ Records all tasks that are owned by this employee
 Format must be: "USER_ID","USERNAME","TASK_COMPLETED_STATUS","TASK_TITLE"
 File name must be: USER_ID.csv
 """
+
 import csv
 import requests
-import sys
-
+from sys import argv
 
 if __name__ == "__main__":
-    user_id = sys.argv[1]
-    url_user = 'https://jsonplaceholder.typicode.com/users/{}'\
-        .format(user_id)
-    user_req = requests.get(url_user).json()
-    userId_parameter = '?userId={}'.format(user_id)
-    url_todo = 'https://jsonplaceholder.typicode.com/todos{}'\
-        .format(userId_parameter)
-    todo_req = requests.get(url_todo).json()
-    todo_total = len(todo_req)
+    url = "https://jsonplaceholder.typicode.com/"
+    user = argv[1]
+    user_request = requests.get(url + "users/{}".format(user)).json()
+    all_requests = requests.get(url + "todos", params={"userId": user}).json()
 
-    csvfile = "{}.csv".format(user_id)
-    with open(csvfile, "w") as file:
+    out_file = "{}.csv".format(user)
+    with open(out_file, "w") as file:
         writer = csv.writer(file, quoting=csv.QUOTE_ALL)
-        username = user_req['username']
-        for all_tasks in todo_req:
-            writer.writerow([user_id, username,
-                            all_tasks['completed'],
-                            all_tasks['title']])
+        user_name = user_request['username']
+        for request in all_requests:
+            writer.writerow([user, user_name,
+                             request['completed'],
+                             request['title']])
