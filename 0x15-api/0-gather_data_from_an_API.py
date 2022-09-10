@@ -16,7 +16,7 @@ if __name__ == "__main__":
         if request['completed']:
             completed_tasks.append(request)
 
-    print("Employee {} is done with tasks({}/{})".format(user_request.get('name'), len(completed_tasks), len(all_requests)))
+    print("Employee {} is done with tasks({}/{}):".format(user_request.get('name'), len(completed_tasks), len(all_requests)))
 
     for task in completed_tasks:
         print("\t {}".format(task['title']))
