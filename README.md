@@ -17,3 +17,9 @@ def my_function(x, y):
 return x + y
 ```
 We can reference a link. [Click here](www.google.com)
+
+
+| Syntax      | Description |
+| ----------- | ----------- |
+| Header      | Title       |
+| Paragraph   | Text        |
