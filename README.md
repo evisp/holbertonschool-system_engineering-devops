@@ -12,4 +12,8 @@ We can create lists
   - something here
   - something there
 
+```Python
+def my_function(x, y):
+return x + y
+```
 We can reference a link. [Click here](www.google.com)
